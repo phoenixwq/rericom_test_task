@@ -26,7 +26,8 @@ services:
     networks:
       - connect
 
-  web:
+  backend:
+    image: backend_image
     build: ./backend
     restart: always
     ports:
@@ -35,6 +36,7 @@ services:
       - broker
     environment:
       BROKER_URL: broker:29092
+      TOKEN: foo
     depends_on:
       - broker
     networks:
@@ -45,7 +47,8 @@ services:
     restart: always
     environment:
       BROKER_URL: broker:29092
-      API_URL: http://web:8000
+      API_URL: http://backend:8000
+      TOKEN: foo
     depends_on:
       - broker
     networks:

@@ -6,7 +6,7 @@ from .serializers import (
     MessageConfirmSerializer
 )
 from .producers import send
-
+from django.conf import settings
 
 @api_view(["POST"])
 def message(request):
@@ -25,6 +25,8 @@ def message(request):
 
 @api_view(["POST"])
 def message_confirmation(request):
+    if request.headers.get("Authentication") != settings.TOKEN:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = MessageConfirmSerializer(data=request.data)
     if serializer.is_valid():
         success = serializer.validated_data.get("success")

@@ -1,7 +1,7 @@
 from kafka import KafkaConsumer
 import json, requests, os
 
-# TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("TOKEN")
 API_URL = os.getenv("API_URL")
 ROUTE = "/api/v1/message_confirmation/"
 BROKER_URL = os.getenv("BROKER_URL")
@@ -22,9 +22,9 @@ if __name__ == "__main__":
             "message_id": message_data.get("message_id"),
             "success": success
         }
-        # headers = {"Authentication": TOKEN}
+        headers = {"Authentication": TOKEN}
         resp = requests.post(
             API_URL + ROUTE,
             data=data,
-            # headers=headers
+            headers=headers
         )
